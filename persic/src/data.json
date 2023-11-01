@@ -1,0 +1,23 @@
+[
+    {
+        "id":1,
+        "firstForm": "do",
+        "secondForm": "did",
+        "thirdForm": "done",
+        "translate": "делать" 
+    },
+    {
+        "id":1,
+        "firstForm": "go",
+        "secondForm": "went",
+        "thirdForm": "gone",
+        "translate": "идти" 
+    },
+    {
+        "id":1,
+        "firstForm": "forget",
+        "secondForm": "forgot",
+        "thirdForm": "forgotten",
+        "translate": "забывать"
+    }
+]
