@@ -1,45 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
-import {Root, View, Panel, PanelHeader,Header, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol, Group, Title, Input, Button, InfoRow, List, Cell, PanelHeaderContent } from '@vkontakte/vkui';
-import '@vkontakte/vkui/dist/vkui.css';
-import './components/glav.css';
-
+import { useActiveVkuiLocation, useGetPanelForView, useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
+import { View, Root, Tabbar, TabbarItem, Epic } from '@vkontakte/vkui';
+import {Icon28NewsfeedOutline } from '@vkontakte/icons';
+import HomePanel from './Panel/HomePanel.js';
 import WEllcome from './panels/Wellcome.js';
+import MYTabBar from './components/MyTabBar.js'
+import Intro from './panels/hz/hz1.js';
+import Panel2 from './Panel/PAnel2.js';
+
 
 const App = () => {
-	const [activePanel, setActivePanel] = useState('home');
-	const [fetchedUser, setUser] = useState(null);
-	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
-
-	useEffect(() => {
-		async function fetchData() {
-			const user = await bridge.send('VKWebAppGetUserInfo');
-			setUser(user);
-			setPopout(null);
-		}
-		fetchData();
-	}, []);
-
-	const go = e => {
-		setActivePanel(e.currentTarget.dataset.to);
-	};
-
-	
+    const {view: activeView} = useActiveVkuiLocation();
+    const activePanel = useGetPanelForView('default_view');
 
 	return (
-		<ConfigProvider>
-			<AdaptivityProvider>
-				<AppRoot>
-					<SplitLayout >
-						<SplitCol>
-							<View activePanel={activePanel}>
-								<WEllcome id="home"/>
-							</View>
-						</SplitCol>
-					</SplitLayout>
-				</AppRoot>
-			</AdaptivityProvider>
-		</ConfigProvider>
+		<Epic activeStory={activeView} tabbar={<MYTabBar />}>
+			
+			<View id={activeView} activePanel={activePanel}>
+    			<HomePanel nav="home_panel" />
+				<Panel2 nav="intro_panel" />
+    		</View>
+			
+		</Epic>
 	);
 }
 

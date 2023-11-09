@@ -1,27 +1,3 @@
-.header {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.FerstButton {
-    color: rgb(78B7B9);
-}
-.button {
-    margin-top:10px;
-    width: 90%;
-    margin-left: 60px;
-}
-.input {
-    margin-top:8px;
-}
-.da {
-    margin-top:10px;
-    width: 90%;
-    margin-left: 60px;
-}
 .de {
     color: gray;
 }
@@ -40,3 +16,14 @@
     width: 200px;
     text-align: center;
 } */
+.GlavButton {
+    font-size: 80px; 
+    padding: 20px 40px;   
+}
+.Wellcome { 
+    display: flex; 
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    height: 50%; 
+}

@@ -4,14 +4,8 @@ import { Header, Panel, PanelHeader, Group, SimpleCell, Button} from '@vkontakte
 
 const WEllcome = () => {
     return (
-        <Panel id="home">
-            <Group>
-            <Header>Meet&Go</Header>
-                <SimpleCell>
-                    Добро пожаловать в Meet&Go
-                </SimpleCell>
-                <Button>Вперёд</Button>
-            </Group>
+        <Panel>
+            <PanelHeader>Добро пожаловать в Meet&Go </PanelHeader>
         </Panel>
 );
 };
