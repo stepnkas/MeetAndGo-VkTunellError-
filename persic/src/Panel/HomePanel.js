@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
-import {Root, View, Tabbar, TabbarItem, Panel, PanelHeader,Header, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol, Group, Title, Input, Button, InfoRow, List, Cell, PanelHeaderContent } from '@vkontakte/vkui';
+import {
+	Root, View, Tabbar, TabbarItem, Panel, PanelHeader, Header, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout,
+	SplitCol, Group, Title, Input, Button, InfoRow, List, Cell, PanelHeaderContent, Epic
+} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { Snackbar, Avatar } from '@vkontakte/vkui';
-import {Icon28NewsfeedOutline } from '@vkontakte/icons';
+import { Icon28NewsfeedOutline } from '@vkontakte/icons';
 
 import WEllcome from '../panels/Wellcome.js';
 import Verification from '../panels/verification';
 import { string } from 'prop-types';
 import Intro from '../panels/hz/hz1';
+import GlavPanel from './GlavPanel.js';
+import { useActiveVkuiLocation, useGetPanelForView, useRouteNavigator } from '@vkontakte/vk-mini-apps-router';
+import MYTabBar from '../components/MyTabBar.js';
 
 
 const ROUTES = {
 	HOME: 'home',
-	INTRO: 'intro'
+	INTRO: 'intro',
+	PROFILE: 'profile'
 };
 
 const Storage_Keys = {
@@ -28,9 +35,11 @@ const App = () => {
 	const [userHasSeenIntro, setUserHasSeenIntro] = useState(false);
 	const [snackbar, setSnackbar] = useState(false);
 
+	const routeNavigator = useRouteNavigator();
+
 	useEffect(() => {
-		bridge.subscribe((type="VKWebAppInitFalled", data={}) => {
-			if (type === 'VKWebAppUpdateConfig'){
+		bridge.subscribe((type = "VKWebAppInitFalled", data = {}) => {
+			if (type === 'VKWebAppUpdateConfig') {
 				const schemeAttribute = document.createAttribute('scheme');
 				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
 				document.body.attributes.setNamedItem(schemeAttribute);
@@ -44,26 +53,26 @@ const App = () => {
 			});
 			console.log(storageDate);
 			const data = {};
-			storageDate.keys.forEach( ({key: keyString, value: valueString }) => {
+			storageDate.keys.forEach(({ key: keyString, value: valueString }) => {
 				try {
-					data[key] = value ? JSON.parse(value): {};
+					data[key] = value ? JSON.parse(value) : {};
 					switch (key) {
-						case Storage_Keys.STATUS: 
-							if (data[key].hasSeenIntro){
+						case Storage_Keys.STATUS:
+							if (data[key].hasSeenIntro) {
 								setActivePanel(ROUTES.WEllcome);
 								setUserHasSeenIntro(true);
-								
+
 							}
 							break;
 						default:
 							break;
 					}
-				} catch(error){
-					setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)'}}>sdfdsf</Avatar>} duration={900}>
-						проблема с получением данных из Storage 
+				} catch (error) {
+					setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)' }}>sdfdsf</Avatar>} duration={900}>
+						проблема с получением данных из Storage
 					</Snackbar>)
 				}
-			}) 
+			})
 			setUser(user);
 			setPopout(null);
 		}
@@ -83,31 +92,19 @@ const App = () => {
 				})
 			});
 		} catch (error) {
-			setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)'}}>sdfdsf</Avatar>} duration={900}>
-				проблема с отправкой данных в Storage 
+			setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)' }}>sdfdsf</Avatar>} duration={900}>
+				проблема с отправкой данных в Storage
 			</Snackbar>)
-	} 
+		}
 	}
-
+	const { view: activeView } = useActiveVkuiLocation();
+	const active1Panel = useGetPanelForView('default_view');
 	return (
-		<ConfigProvider>
-			<AdaptivityProvider>
-				<AppRoot>
-					<SplitLayout > 	
-						<SplitCol>
-							<Root>
-							<View activePanel={activePanel}>
-								<WEllcome id={ROUTES.HOME} />
-								<Intro id={ROUTES.INTRO} fetchedUser={fetchedUser} userHasSeenIntro={userHasSeenIntro} go={viewIntro} snackbarError={snackbar}/>
-								
-							</View>
-							{/* <Verification activePanel={activePanel}/> */}
-							</Root>
-						</SplitCol>
-					</SplitLayout>
-				</AppRoot>
-			</AdaptivityProvider>
-		</ConfigProvider>
+		<Epic activeStory={activeView} tabbar={<MYTabBar />}>
+			<View id={activeView} activePanel={activePanel}>
+				<WEllcome id={ROUTES.HOME} />
+			</View>
+		</Epic>
 	);
 }
 

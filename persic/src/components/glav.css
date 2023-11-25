@@ -19,6 +19,7 @@
 .GlavButton {
     font-size: 80px; 
     padding: 20px 40px;   
+    color: Turquoise;
 }
 .Wellcome { 
     display: flex; 

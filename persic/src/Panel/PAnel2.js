@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import bridge from '@vkontakte/vk-bridge';
-import {Root, View, Tabbar, TabbarItem, Panel, PanelHeader,Header, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol, Group, Title, Input, Button, InfoRow, List, Cell, PanelHeaderContent } from '@vkontakte/vkui';
+import { Root, View, Tabbar, TabbarItem, Panel, PanelHeader, Header, ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, SplitLayout, SplitCol, Group, Title, Input, Button, InfoRow, List, Cell, PanelHeaderContent } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { Snackbar, Avatar } from '@vkontakte/vkui';
-import {Icon28NewsfeedOutline } from '@vkontakte/icons';
+import { Icon28NewsfeedOutline } from '@vkontakte/icons';
 
 import WEllcome from '../panels/Wellcome.js';
 import Verification from '../panels/verification';
@@ -44,26 +44,26 @@ const Panel2 = () => {
 			});
 			console.log(storageDate);
 			const data = {};
-			storageDate.keys.forEach( ({key: keyString, value: valueString }) => {
+			storageDate.keys.forEach(({ key: keyString, value: valueString }) => {
 				try {
-					data[key] = value ? JSON.parse(value): {};
+					data[key] = value ? JSON.parse(value) : {};
 					switch (key) {
-						case Storage_Keys.STATUS: 
-							if (data[key].hasSeenIntro){
+						case Storage_Keys.STATUS:
+							if (data[key].hasSeenIntro) {
 								setActivePanel(ROUTES.WEllcome);
 								setUserHasSeenIntro(true);
-								
+
 							}
 							break;
 						default:
 							break;
 					}
-				} catch(error){
-					setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)'}}>sdfdsf</Avatar>} duration={900}>
-						проблема с получением данных из Storage 
+				} catch (error) {
+					setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)' }}>sdfdsf</Avatar>} duration={900}>
+						проблема с получением данных из Storage
 					</Snackbar>)
 				}
-			}) 
+			})
 			setUser(user);
 			setPopout(null);
 		}
@@ -83,28 +83,18 @@ const Panel2 = () => {
 				})
 			});
 		} catch (error) {
-			setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)'}}>sdfdsf</Avatar>} duration={900}>
-				проблема с отправкой данных в Storage 
+			setSnackbar(<Snackbar layout='vertical' onClose={() => setSnackbar(null)} before={<Avatar size={24} style={{ background: 'var(--dynamic-red)' }}>sdfdsf</Avatar>} duration={900}>
+				проблема с отправкой данных в Storage
 			</Snackbar>)
-	} 
+		}
 	}
 
 	return (
-		<ConfigProvider>
-			<AdaptivityProvider>
-				<AppRoot>
-					<SplitLayout > 	
-						<SplitCol>
-							<Root>
-							<View activePanel={activePanel}>
-								<Intro id={ROUTES.INTRO} fetchedUser={fetchedUser} userHasSeenIntro={userHasSeenIntro} go={viewIntro} snackbarError={snackbar}/>
-							</View>
-							</Root>
-						</SplitCol>
-					</SplitLayout>
-				</AppRoot>
-			</AdaptivityProvider>
-		</ConfigProvider>
+		<Panel>
+			<View activePanel={activePanel}>
+				<Intro id={ROUTES.INTRO} fetchedUser={fetchedUser} userHasSeenIntro={userHasSeenIntro} go={viewIntro} snackbarError={snackbar} />
+			</View>
+		</Panel>
 	);
 }
 

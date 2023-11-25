@@ -10,6 +10,7 @@ import {
   AppRoot
 } from '@vkontakte/vkui';
 
+
 // Init VK Mini App
 bridge.send("VKWebAppInit");
 
@@ -18,6 +19,7 @@ const router = createHashRouter([
     path: '/',
     panel:'home_panel',
     view: 'default_view',
+    root: 'default_root'
   },
   {
     path: 'intro',
